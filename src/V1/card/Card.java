@@ -1,9 +1,12 @@
 //File created by Andrew Chafos: 8/30/15 @ 3:46 PM
 package V1.card;
 
-import java.util.Random;
+import V1.Globals;
 import V1.util.Strings;
+import java.util.Random;
 import java.util.Arrays;
+import java.awt.*;
+import java.awt.image.ImageObserver;
 
 public class Card{
     
@@ -23,12 +26,14 @@ public class Card{
     //while overloaded simply sets what it is given
     public Card(){
         
-        int cardVal = new Random().nextInt(CardGlobals.VALUE.length - 1);
+        long seed = System.nanoTime();
+        
+        int cardVal = new Random(seed).nextInt(CardGlobals.VALUE.length - 1);
         this.value = CardGlobals.VALUE[cardVal];
         this.numberValue = cardVal + 1;
         
         this.suit = CardGlobals.SUIT[
-            new Random().nextInt(CardGlobals.SUIT.length - 1)
+            new Random(seed).nextInt(CardGlobals.SUIT.length - 1)
         ];
     }
     
@@ -56,6 +61,10 @@ public class Card{
     //i.e. 2 of clubs, Ace of spades, etc.
     public String getFullName(){
         return Strings.capitalize(value) + " of " + suit.toLowerCase();
+    }
+    
+    public void drawCard(Graphics g, int x, int y){
+        g.drawImage(Globals.deckImage, x, y, null);
     }
     
 }//end of class
