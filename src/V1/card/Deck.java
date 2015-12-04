@@ -9,8 +9,10 @@ public class Deck{
     
     public Deck(){
         cards = new ArrayList<>();
-        for(int i = 0;i < 52;i++){
-            cards.add(new Card());
+        for(int i = 0;i < 4;i++){
+            for(int it = 0;it < 13;it++){
+                cards.add(new Card(it, i, 0, 0));
+            }
         }
     }
     
@@ -19,14 +21,28 @@ public class Deck{
         Collections.shuffle(cards, new Random(seed));
     }
     
-    public Card getCard(int num){
-        try{
-            return cards.get(num);
+    public void shuffle(int numOfTimes){
+        for(int i = 0; i < numOfTimes; i++){
+            long seed = System.nanoTime();
+            Collections.shuffle(cards, new Random(seed));
         }
-        catch(Exception e){
-            return null;
+    }
+    
+    public Card accessRand(){
+        int num = Math.round((int)(Math.random() * 51));
+        while(cards.get(num).getUsage()){
+            num = Math.round((int)(Math.random() * 51));
         }
-        
+        cards.get(num).setUse(true); 
+        return cards.get(num);
+    }
+    
+    public void resetDeck(){
+        for(int i = 0;i < 52; i++){
+            if(cards.get(i).getUsage()){
+                cards.get(i).setUse(false);
+            }
+        }
     }
     
     public ArrayList<Card> getDeck(){

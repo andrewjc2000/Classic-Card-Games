@@ -36,7 +36,7 @@ public class MainMenu extends GameComponent{
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
-        drawBackground(g);
+        drawBackground(g, Color.black);
         
         for(int i = 0;i < 2;i++){
             buttons[i].draw(g);

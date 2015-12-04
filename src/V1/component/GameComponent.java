@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import V1.Globals;
+import V1.component.drawn.Image;
 
 //GameComponent has subclasses.  That's why it implements several interfaces
 //but does not use them; they are simply an option for its subclasses to choose
@@ -14,6 +15,7 @@ public class GameComponent extends JComponent implements ActionListener, MouseLi
     
     protected final int FPS;
     private final Timer timer;
+    private final V1.component.drawn.Image background;
     
     //These states are used by several classes, not just
     //GameComponent and its subclasses.
@@ -36,7 +38,8 @@ public class GameComponent extends JComponent implements ActionListener, MouseLi
         FPS = 100;
         state = STATE.ACTIVE;
         switchComp = SWITCHTO.NONE;
-        timer = new Timer((int)(1000 / FPS), this); 
+        timer = new Timer((int)(1000 / FPS), this);
+        background = new Image(Globals.BGImage, 0, 0);
     }
     
     public void changeTimer(boolean on){
@@ -69,12 +72,9 @@ public class GameComponent extends JComponent implements ActionListener, MouseLi
     }
     
     //All of the AWT methods are down below :)
-    
-    //By default, the background is drawn black
     //These methods are here because they are handy for the components to use
     protected void drawBackground(Graphics g){
-        g.setColor(Color.black);
-        g.fillRect(0, 0, Globals.frameWidth, Globals.frameHeight);
+        background.draw(g);
     }
     
     protected void drawBackground(Graphics g, Color color){

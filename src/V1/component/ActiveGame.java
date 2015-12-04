@@ -56,18 +56,14 @@ public class ActiveGame extends JPanel implements Runnable{
                         System.exit(0);
                         break;
                     case MAIN_MENU:
-                        javax.swing.SwingUtilities.invokeLater(() -> {
-                            removeCurrentComponent();
-                            currentComponent = new MainMenu();
-                            addCurrentComponent();
-                        });
+                        removeCurrentComponent();
+                        currentComponent = new MainMenu();
+                        addCurrentComponent();
                         break;
                     case CRIBBAGE:
-                        javax.swing.SwingUtilities.invokeLater(() -> {
-                            removeCurrentComponent();
-                            currentComponent = new Cribbage();
-                            addCurrentComponent();
-                        });
+                        removeCurrentComponent();
+                        currentComponent = new Cribbage();
+                        addCurrentComponent();
                         break;
                 }//end of switch
             }//end of if

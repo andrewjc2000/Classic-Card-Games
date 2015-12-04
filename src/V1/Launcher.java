@@ -21,10 +21,18 @@ public class Launcher {
         frame.init();
         
         try{
-            URL resource = Launcher.class.getClassLoader()
-            .getResource("V1/resources/deck.jpg");
-            BufferedImage deck = ImageIO.read(resource);
+            URL resource1 = Launcher.class.getClassLoader()
+                .getResource("V1/resources/deck.jpg");
+            BufferedImage deck = ImageIO.read(resource1);
             Globals.deckImage = deck;
+            URL resource2 = Launcher.class.getClassLoader()
+                .getResource("V1/resources/WoodBG.jpg");
+            BufferedImage bg = ImageIO.read(resource2);
+            Globals.BGImage = bg;
+            URL resource3 = Launcher.class.getClassLoader()
+                .getResource("V1/resources/CardBack.jpg");
+            BufferedImage cardBack = ImageIO.read(resource3);
+            Globals.cardBackImage = cardBack;
         }
         catch(IOException ioe){
             ioe.printStackTrace();

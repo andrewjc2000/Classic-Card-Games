@@ -2,69 +2,68 @@
 package V1.card;
 
 import V1.Globals;
+import V1.component.drawn.Image;
 import V1.util.Strings;
-import java.util.Random;
-import java.util.Arrays;
-import java.awt.*;
-import java.awt.image.ImageObserver;
 
 public class Card{
     
-    private final String value;
-    private final String suit;
-    private final int numberValue;
+    private final int value;
+    private final int suit;
+    private final String vString;
+    private final String sString;
+    public final Image image;
+    private boolean inUse;
     
-    public String getValue(){
+    public int getValue(){
         return value;
     }
     
-    public String getSuit(){
+    public int getSuit(){
         return suit;
     }
     
-    //Default constructor sets random values for the auit & value
-    //while overloaded simply sets what it is given
-    public Card(){
-        
-        long seed = System.nanoTime();
-        
-        int cardVal = new Random(seed).nextInt(CardGlobals.VALUE.length - 1);
-        this.value = CardGlobals.VALUE[cardVal];
-        this.numberValue = cardVal + 1;
-        
-        this.suit = CardGlobals.SUIT[
-            new Random(seed).nextInt(CardGlobals.SUIT.length - 1)
-        ];
+    public String getStringValue(){
+        return vString;
     }
     
-    public Card(String value, String suit){
+    public String getStringSuit(){
+        return sString;
+    }
+    
+    public boolean getUsage(){
+        return inUse;
+    }
+    
+    public void setUse(boolean use){
+        inUse = use;
+    }
+    
+    public Card(int value, int suit, int posX, int posY){
         this.value = value;
         this.suit = suit;
-        int cardVal = -1;
+        this.sString = CardGlobals.SUIT[suit];
+        this.vString = CardGlobals.VALUE[value];
         
-        //the purpose of this for loop is to iterate through the globals
-        //to see if the value is valid
-        for(int i = 0;i < CardGlobals.VALUE.length;i++){
-            if(CardGlobals.VALUE[i].equals(suit)){
-                cardVal = i + 1;
-            }
-        }
+        int[] imgCoords = imagePosition(suit, value);
         
-        this.numberValue = cardVal;
-        if(numberValue == -1 || !Arrays.toString(CardGlobals.SUIT).contains(suit)){
-            throw new RuntimeException("Card was initialized with invalid suit/value.  You suck.");
-        }
-        //I will complain if you pass through an invalid value--don't do it >:|
+        image = new Image(
+             Globals.deckImage, imgCoords[0], imgCoords[1], imgCoords[2], imgCoords[3], posX, posY
+        );
     }
     
     //returns what we would call the name of this card
     //i.e. 2 of clubs, Ace of spades, etc.
     public String getFullName(){
-        return Strings.capitalize(value) + " of " + suit.toLowerCase();
+        return Strings.capitalize(vString) + " of " + sString.toLowerCase();
     }
     
-    public void drawCard(Graphics g, int x, int y){
-        g.drawImage(Globals.deckImage, x, y, null);
+    private int[] imagePosition(int suit, int value){//both of these start from 0 and go to 12 or 3
+        int startingX = (int)(Math.round((value * Globals.deckImage.getWidth()) / 13));
+        int startingY = (int)(Math.round((suit * Globals.deckImage.getHeight()) / 4));
+        int endingX = startingX + (int)(Math.round(Globals.deckImage.getWidth() / 13));
+        int endingY = startingY + (int)(Math.round(Globals.deckImage.getHeight() / 4));        
+        int[] coords = {startingX, startingY, endingX, endingY};
+        return coords;
     }
     
 }//end of class

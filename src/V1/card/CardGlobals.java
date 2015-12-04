@@ -6,8 +6,8 @@ package V1.card;
 public class CardGlobals{
     
     public final static String[] SUIT = {
-        "SPADES", 
         "CLUBS", 
+        "SPADES", 
         "HEARTS",
         "DIAMONDS"
     };

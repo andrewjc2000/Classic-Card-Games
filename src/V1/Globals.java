@@ -8,6 +8,6 @@ import java.awt.image.BufferedImage;
 public class Globals {
     
     public static int frameWidth, frameHeight;
-    public static BufferedImage deckImage;
+    public static BufferedImage deckImage, BGImage, cardBackImage;
 
 }//end of class
