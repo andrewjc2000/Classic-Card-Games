@@ -4,18 +4,21 @@ package V1.component;
 import java.awt.*;
 import javax.swing.*;
 import V1.games.*;
+import java.awt.event.*;
 
 //This class is the jPanel added to MainFrame which handles the switching
 //and displaying of the current component
-public class ActiveGame extends JPanel implements Runnable{
+public class ActiveGame extends JPanel implements ActionListener{
 
     public boolean running;
     private boolean started;//same as initialized or init in other classes
     private GameComponent currentComponent;
+    private final Timer timer;
     
     public ActiveGame(){
-        running = false;
+        running = true;
         started = false;
+        timer = new Timer(5, this);
     }
     
     public void start(){
@@ -26,7 +29,7 @@ public class ActiveGame extends JPanel implements Runnable{
             addMouseListener(currentComponent);
             addMouseMotionListener(currentComponent);
             add(currentComponent, BorderLayout.CENTER);//and this
-            new Thread(this).start();//this is just how I choose to do it
+            timer.start();
             started = true;
         }
     }
@@ -39,17 +42,18 @@ public class ActiveGame extends JPanel implements Runnable{
     }
     
     private void addCurrentComponent(){
-        currentComponent.changeTimer(true);
-        addMouseListener(currentComponent);
-        addMouseMotionListener(currentComponent);
-        add(currentComponent, BorderLayout.CENTER);
-        validate();//and this was the solution to a problem I encountered
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            currentComponent.changeTimer(true);
+            addMouseListener(currentComponent);
+            addMouseMotionListener(currentComponent);
+            add(currentComponent, BorderLayout.CENTER);
+            validate();//and this was the solution to a problem I encountered
+        });
     }
     
     @Override
-    public void run(){
-        running = true;
-        while(running){
+    public void actionPerformed(ActionEvent e){
+        if(running){
             if(currentComponent.state == GameComponent.STATE.INACTIVE){
                 switch(currentComponent.switchComp){
                     case NONE:
@@ -66,9 +70,11 @@ public class ActiveGame extends JPanel implements Runnable{
                         addCurrentComponent();
                         break;
                 }//end of switch
-            }//end of if
-        }//end of while loop
+            }//end of inner if
+        }//end of outer if
+        else{
+            timer.stop();
+        }
     }//end of overriden method
-    
     
 }//end of class
