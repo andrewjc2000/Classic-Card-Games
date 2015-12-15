@@ -4,9 +4,9 @@ package V1.games;
 import V1.card.*;
 import V1.component.*;
 import V1.Globals;
-import V1.anim.FixedAnimation;
-import V1.util.Timing;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 //The first (and hopefully one of the, plural) game(s)
 //to be in AJC Classic Card Games!
@@ -15,9 +15,9 @@ public class Cribbage extends GameComponent{
     private final Deck deck;
     private final Player player1;
     private final Player player2;
+    private final ArrayList<Card> currentCrib;
     private final V1.component.drawn.Image cardBack;
-    private boolean inStartAnimState, inCribChoosingState;
-    private int timeElapsed, startAnimProgress;
+    private int timeElapsed, startAnimProgress, gameState;
     
     public Cribbage(){
         deck = new Deck();
@@ -32,10 +32,11 @@ public class Cribbage extends GameComponent{
             player2.addCardToHand(deck.accessRand());
         }
         
-        inStartAnimState = false;
-        inCribChoosingState = false;
+        gameState = 0;
         timeElapsed = 0;
         startAnimProgress = 0;
+        
+        currentCrib = new ArrayList<>();
         
     }//end of default constructor
     
@@ -46,7 +47,7 @@ public class Cribbage extends GameComponent{
         cardBack.draw(g, 20, (int)((650 - Globals.cardBackImage.getHeight()) / 2));
         
         if(timeElapsed > FPS){
-            if(inStartAnimState){
+            if(gameState == 1){
                 for(int i = 0; i < 6;i++){
                     int x = (int)(startAnimProgress * (170 + (i * 120)) / (FPS * 2));
                     int y = (int)((650 - Globals.cardBackImage.getHeight()) / 2);
@@ -58,23 +59,65 @@ public class Cribbage extends GameComponent{
                 }
                 else{
                     startAnimProgress = 0;
-                    inStartAnimState = false;
-                    inCribChoosingState = true;
+                    gameState = 2;
                 }
             }
-            else if(inCribChoosingState){
+            else if(gameState == 2){
                 for(int i = 0; i < 6;i++){
                     cardBack.draw(g, 170 + (i * 120), 20);
-                    player1.getHand().get(i).image.draw(g, 170 + (i * 120), 460);
+                    player1.getHand().get(i).image.draw(g);
                 } 
             }
         }
         else if(timeElapsed == FPS){
-            inStartAnimState = true;
+            gameState = 1;
         }
         
         timeElapsed++;
         
     }//end of method
+    
+    @Override
+    public void mouseMoved(MouseEvent e){
+        int mouseX = e.getX();
+        int mouseY = e.getY();
+        
+        if(gameState == 2){
+            for(Card card: player1.getHand()){
+                if(card.image.containsCoords(mouseX, mouseY) && 
+                    !card.image.getHighlighted()
+                ){
+                    card.image.highlight(new Color(0, 255, 255, 128));
+                }
+                else if(!card.image.containsCoords(mouseX, mouseY) && 
+                    card.image.getHighlighted()
+                ){
+                    card.image.deHighlight();
+                }
+            }//end of for loop
+        }//end of if
+        
+    }//end of method
+    
+    @Override
+    public void mouseClicked(MouseEvent e){
+        int mouseX = e.getX();
+        int mouseY = e.getY();
+        
+        if(gameState == 2){
+            for(Card card: player1.getHand()){
+                if(card.image.containsCoords(mouseX, mouseY) && !card.image.selected){
+                    card.image.selected = true;
+                    card.image.changeY(440);
+                    currentCrib.add(card);
+                }
+                else if(card.image.containsCoords(mouseX, mouseY) && card.image.selected){
+                    card.image.selected = false;
+                    card.image.changeY(460);
+                    currentCrib.remove(card);
+                }
+            }//end of for loop
+        }//end of ifs
+    }
     
 }//end of class

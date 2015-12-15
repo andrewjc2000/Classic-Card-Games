@@ -10,6 +10,9 @@ public class Image {
     private final IMG_TYPE type;
     private final int width, height, sX, sY, eX, eY;//s = starting, e = ending
     private int posX, posY;
+    private boolean highlighted;
+    public boolean selected;
+    private Color highlight;
     
     private enum IMG_TYPE {
         ONLY_IMAGE,
@@ -20,6 +23,10 @@ public class Image {
     
     public BufferedImage getImage(){
         return image;
+    }
+    
+    public boolean getHighlighted(){
+        return highlighted;
     }
     
     public Image(BufferedImage img, int posX, int posY){
@@ -34,6 +41,8 @@ public class Image {
         eY = height;
         this.posX = posX;
         this.posY = posY;
+        this.highlighted = false;
+        this.selected = false;
     }
     
     public Image(BufferedImage img, int width, int height, int posX, int posY){
@@ -49,6 +58,8 @@ public class Image {
         
         this.posX = posX;
         this.posY = posY;
+        this.highlighted = false;
+        this.selected = false;
     }
     
     public Image(BufferedImage img, int startingX, int startingY, int endingX, int endingY,
@@ -67,10 +78,17 @@ public class Image {
         
         this.posX = posX;
         this.posY = posY;
+        this.highlighted = false;
+        this.selected = false;
     }
     
     public void draw(Graphics g){
         g.drawImage(image, posX, posY, posX + width, posY + height, sX, sY, eX, eY, null);
+        drawBorder(g);
+        if(this.highlighted){
+            g.setColor(highlight);
+            g.fillRect(posX, posY, width, height);
+        }
     }
     
     public void draw(Graphics g, int x, int y){
@@ -82,6 +100,10 @@ public class Image {
         }   
         g.drawImage(image, x, y, x + width, y + height, sX, sY, eX, eY, null);
         drawBorder(g);
+        if(this.highlighted || this.selected){
+            g.setColor(highlight);
+            g.fillRect(x, y, width, height);
+        }
     }
     
     public void drawBorder(Graphics g){
@@ -89,6 +111,16 @@ public class Image {
         for(int i = 0;i < 3;i++){
             g.drawRect(posX - i, posY - i, width + (i * 2), height + (i * 2));
         }
+    }
+    
+    public void highlight(Color h){
+        highlight = h;
+        highlighted = true;
+    }
+    
+    public void deHighlight(){
+        highlight = new Color(0, 0, 0, 0);
+        highlighted = false;
     }
     
     public boolean containsCoords(int coordX, int coordY){
