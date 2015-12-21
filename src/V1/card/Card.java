@@ -22,6 +22,10 @@ public class Card{
         return suit;
     }
     
+    public int getCribbageValue(){
+        return (value > 9) ? 10 : value + 1;
+    }
+    
     public String getStringValue(){
         return vString;
     }

@@ -10,6 +10,9 @@ import V1.exception.UnretrievableAttributeException;
 public class Button extends Component{
     
     private final int x, y, width, height;
+    private final boolean hasBorder;
+    private boolean usingBorder;
+    private final Border border;
     
     //I thought that a simple "get" method would be more efficient for 
     //several attributes of the same type which need to be accessed.
@@ -28,17 +31,50 @@ public class Button extends Component{
         }//end of switch
     }//end of method
     
+    public boolean getBool(String attribute){
+        switch(attribute){
+            case "hasBorder":
+                return hasBorder;
+            case "usingBorder":
+                return usingBorder;
+            default:
+                throw new UnretrievableAttributeException(attribute, "Button");
+        }
+    }
+    
     public Button(int x, int y, int width, int height, Color buttonColor){
         super(buttonColor);
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        border = null;
+        usingBorder = false;
+        hasBorder = false;
+    }
+    
+    public Button(int x, int y, int width, int height, Color buttonColor, Border border){
+        super(buttonColor);
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.border = border;
+        hasBorder = true;
+        usingBorder = false;
+    }
+    
+    public void changeBorderUse(boolean use){
+        usingBorder = use;
     }
     
     public void draw(Graphics g){
         g.setColor(color);
         g.fillRect(x, y, width, height);
+        
+        if(usingBorder){
+            border.draw(g);
+        }
     }
     
     //this was originially created for mouse position, but you

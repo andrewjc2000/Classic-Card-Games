@@ -8,8 +8,8 @@ import java.awt.*;
 //which can be drawn on an AWT component.
 public class Label extends Component{
     
-    private final int x, y;
-    private final String text;
+    private int x, y;
+    public String text;
     private final Font font;
     
     //this constructor takes in a Font object...
@@ -56,14 +56,31 @@ public class Label extends Component{
     
     //this will center the label inside of the button
     public void drawInButton(Graphics g, Button b){
+        b.draw(g);
         g.setColor(color);
         g.setFont(font);
         int stringWidth = g.getFontMetrics().stringWidth(text);
         int stringHeight = g.getFontMetrics().getHeight();
-        g.drawString(text, x + (int)((b.get("width") - stringWidth) / 2), 
-            y + (int)(3 * (b.get("height") - stringHeight) / 2));
+        g.drawString(text, b.get("x") + (int)((b.get("width") - stringWidth) / 2), 
+            b.get("y") + (int)(3 * (b.get("height") - stringHeight) / 2));
         //confusing math just uses the button and the string's heights & widths
         //to determine the position for the label.
+    }
+    
+    public void drawInRect(Graphics g, Color rectColor){
+        g.setColor(rectColor);
+        g.setFont(font);        
+        g.fillRect(x - 5, y - (int)(3 * g.getFontMetrics().getHeight() / 4) - 5, 
+            g.getFontMetrics().stringWidth(text) + 10, g.getFontMetrics().getHeight() + 10);
+        draw(g);
+    }
+    
+    public void changeX(int newX){
+        this.x = newX;
+    }
+    
+    public void changeY(int newY){
+        this.y = newY;
     }
     
 }//end of class

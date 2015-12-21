@@ -14,6 +14,14 @@ public class Image {
     public boolean selected;
     private Color highlight;
     
+    public int getX(){
+        return posX;
+    }
+    
+    public int getY(){
+        return posY;
+    }
+    
     private enum IMG_TYPE {
         ONLY_IMAGE,
         DIMENSIONS,//snipit of the image that starts from the left-hand corner

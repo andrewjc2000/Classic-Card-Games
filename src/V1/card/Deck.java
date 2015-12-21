@@ -5,13 +5,19 @@ import java.util.*;
 
 public class Deck{
     
-    private final ArrayList<Card> cards;
+    protected final ArrayList<Card> cards;
+    private final boolean isFull;
     
-    public Deck(){
+    public Deck(boolean full){
         cards = new ArrayList<>();
-        for(int i = 0;i < 4;i++){
-            for(int it = 0;it < 13;it++){
-                cards.add(new Card(it, i, 0, 0));
+        
+        isFull = full;
+        
+        if(full){
+            for(int i = 0;i < 4;i++){
+                for(int it = 0;it < 13;it++){
+                    cards.add(new Card(it, i, 0, 0));
+                }
             }
         }
     }
@@ -47,6 +53,41 @@ public class Deck{
     
     public ArrayList<Card> getDeck(){
         return cards;
+    }
+    
+    public void addCard(Card newCard){
+        if(!isFull && cards.size() < 52){
+            cards.add(newCard);
+        }
+    }
+    
+    public void removeCard(Card card){
+        if(!isFull && cards.size() < 52){
+            cards.remove(card);
+        }
+    }
+    
+    public void sortCards(){
+        
+        Collections.sort(cards, (Card card1, Card card2) -> {
+            if(card1.getValue() > card2.getValue()){
+                return 1;
+            }
+            else if(card1.getValue() <= card2.getValue()){
+                return -1;
+            }
+            else{
+                return 0;
+            }
+        });
+        
+    }
+    
+    public void print(){
+        System.out.println();
+        for(Card c: cards){
+            System.out.println(c.getFullName());
+        }
     }
     
 }

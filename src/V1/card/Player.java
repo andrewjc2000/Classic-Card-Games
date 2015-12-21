@@ -1,30 +1,26 @@
 //File created by Andrew Chafos: 11/26/15 @ 10:25 AM
 package V1.card;
 
-import java.util.ArrayList;
-
 public class Player {
     
-    private ArrayList<Card> currentHand;
-    
-    public ArrayList<Card> getHand(){
-        return currentHand;
-    }
+    public final Deck currentHand;
     
     public Player(){
-        currentHand = new ArrayList<>();
+        currentHand = new Deck(false);
     }//end of default constructor
     
     public void addCardToHand(Card card){
-        currentHand.add(card);
+        currentHand.addCard(card);
     }
     
-    public void removeCard(int num){
-        currentHand.remove(num);
+    public void removeCard(Card card){
+        currentHand.removeCard(card);
     }
     
     public void emptyHand(){
-        currentHand = new ArrayList<>();
+        for(Card c: currentHand.getDeck()){
+            currentHand.removeCard(c);
+        }
     }
     
 }//end of class

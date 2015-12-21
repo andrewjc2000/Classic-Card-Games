@@ -39,7 +39,6 @@ public class MainMenu extends GameComponent{
         drawBackground(g, Color.black);
         
         for(int i = 0;i < 2;i++){
-            buttons[i].draw(g);
             labels[i].drawInButton(g, buttons[i]);
         }
         
@@ -73,15 +72,19 @@ public class MainMenu extends GameComponent{
         //method isn't called every time the mouse moves.
         if(buttons[0].containsCoords(mouseX, mouseY) && !buttons[0].getHighlighted()){
             buttons[0].highlightComponent(true);
+            setCursor(new Cursor(Cursor.HAND_CURSOR));
         }
         if(buttons[1].containsCoords(mouseX, mouseY) && !buttons[1].getHighlighted()){
             buttons[1].highlightComponent(true);
+            setCursor(new Cursor(Cursor.HAND_CURSOR));
         }
         if(!buttons[0].containsCoords(mouseX, mouseY) && buttons[0].getHighlighted()){
             buttons[0].highlightComponent(false);
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         }
         if(!buttons[1].containsCoords(mouseX, mouseY) && buttons[1].getHighlighted()){
             buttons[1].highlightComponent(false);
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         }
         
     }//end of method
