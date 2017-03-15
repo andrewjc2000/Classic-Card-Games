@@ -28,7 +28,8 @@ public class GameComponent extends JComponent implements ActionListener, MouseLi
         NONE,    //When this is set, and a component turns inactive, the program 
                 //will end
         MAIN_MENU,
-        CRIBBAGE
+        CRIBBAGE,
+        BLACKJACK
     }
     
     protected STATE state;

@@ -69,6 +69,11 @@ public class ActiveGame extends JPanel implements ActionListener{
                         currentComponent = new Cribbage();
                         addCurrentComponent();
                         break;
+                    case BLACKJACK:
+                        removeCurrentComponent();
+                        currentComponent = new BlackJack();
+                        addCurrentComponent();
+                        break;
                 }//end of switch
             }//end of inner if
         }//end of outer if
