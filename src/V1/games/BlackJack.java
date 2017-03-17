@@ -23,12 +23,14 @@ public class BlackJack extends GameComponent{
         TWO_CARD_ANIM,
         HIT_OR_STAY,
         HIT,
-        STAY
+        BUST_TRANSITION,
+        STAY,
+        DEALER_MOVE
     };
     
     private final Deck deck;
     private final V1.component.drawn.Image cardBack;
-    private int counter, initCardAnim, currentSum;
+    private int counter, initCardAnim, currentSum, newCardAnim, moveText;
     private State currentState;
     private final ArrayList<Card> playerHand;
     private final Button hit, stay;
@@ -39,6 +41,8 @@ public class BlackJack extends GameComponent{
         cardBack = new V1.component.drawn.Image(Globals.cardBackImage, 0, 0);
         counter = 0;
         currentSum = 0;
+        newCardAnim = 0;
+        moveText = 0;
         currentState = State.INIT_DELAY;
         playerHand = new ArrayList<>();
         deck.shuffle(3);
@@ -58,23 +62,45 @@ public class BlackJack extends GameComponent{
         cardBack.draw(g, 50, (650 - Globals.cardBackImage.getHeight()) / 2);
         double h = Globals.cardBackImage.getHeight();
         double p = ((1.5 * FPS) - initCardAnim) / (1.5 * FPS);
+        double p2 = (newCardAnim / (1.0 * FPS));
+        double p3 = (moveText / (3.0 * FPS));
         
         if(currentState == State.TWO_CARD_ANIM){
-            cardBack.draw(g, 50 + (int)(200 * p), 
+            cardBack.draw(g, 50 + (int)(50 * p), 
                 (int)((0.5 * (650 - h) + p * ((325 * (7.0/8.0)) - (0.5 * h)))));
-            cardBack.draw(g, 50 + (int)(350 * p), 
+            cardBack.draw(g, 50 + (int)(100 * p), 
                 (int)((0.5 * (650 - h) + p * ((325 * (7.0/8.0)) - (0.5 * h)))));
         }
-        
-        if(currentState == State.HIT_OR_STAY){
-            playerHand.get(0).image.draw(g, 250, (int)(325 + (int)(325 * (7.0/8.0)) - h));
-            playerHand.get(1).image.draw(g, 400, (int)(325 + (int)(325 * (7.0/8.0)) - h));
+        else if(currentState == State.HIT_OR_STAY){
+            for(int i = 0;i < playerHand.size();i++){
+                playerHand.get(i).image.draw(g, 100 + (i * 50), (int)(325 + (int)(325 * (7.0/8.0)) - h));
+            }
             hitOrStay.drawCenteredString(g, true, 200);
             hit.draw(g);
             hitL.drawInButton(g, hit);
             stay.draw(g);
             stayL.drawInButton(g, stay);
             playerSum.drawCenteredString(g, true, 100);
+        }
+        else if(currentState == State.HIT){
+            for(int i = 0;i < playerHand.size() - 1;i++){
+                playerHand.get(i).image.draw(g, 100 + (i * 50), (int)(325 + (int)(325 * (7.0/8.0)) - h));
+            }
+            cardBack.draw(g, 100 + (int)((playerHand.size() - 1) * 50 * p2), 
+                (int)((0.5 * (650 - h) + p2 * ((325 * (7.0/8.0)) - (0.5 * h)))));
+            
+        }
+        else if(currentState == State.BUST_TRANSITION || currentState == State.STAY){
+            for(int i = 0;i < playerHand.size();i++){
+                playerHand.get(i).image.draw(g, 100 + (i * 50), (int)(325 + (int)(325 * (7.0/8.0)) - h));
+            }
+            playerSum.drawCenteredString(g, true, 100 + (int)(p3 * 350));
+        }
+        else if(currentState == State.DEALER_MOVE){
+            for(int i = 0;i < playerHand.size();i++){
+                playerHand.get(i).image.draw(g, 100 + (i * 50), (int)(325 + (int)(325 * (7.0/8.0)) - h));
+            }
+            playerSum.drawCenteredString(g, true, 450);
         }
         
     }
@@ -93,7 +119,7 @@ public class BlackJack extends GameComponent{
                 initCardAnim = (int)(1.5 * FPS);
             }
         }
-        if(currentState == State.TWO_CARD_ANIM){
+        else if(currentState == State.TWO_CARD_ANIM){
             if(initCardAnim > 0){
                 initCardAnim--;
             }
@@ -102,6 +128,28 @@ public class BlackJack extends GameComponent{
                 currentSum = getSum();
                 playerSum.text = "Sum: " + currentSum;
                 currentState = State.HIT_OR_STAY;
+            }
+        }
+        else if(currentState == State.HIT){
+            if(newCardAnim < 1 * FPS){
+                newCardAnim++;
+            }
+            else{
+                newCardAnim = 0;
+                if(currentSum > 21){
+                    currentState = State.BUST_TRANSITION;
+                }
+                else{
+                    currentState = State.HIT_OR_STAY;
+                }
+            }
+        }
+        else if(currentState == State.BUST_TRANSITION || currentState == State.STAY){
+            if(moveText < 3 * FPS){
+                moveText++;
+            }
+            else{
+                currentState = State.DEALER_MOVE;
             }
         }
     }
@@ -122,6 +170,16 @@ public class BlackJack extends GameComponent{
         return sum;
     }
     
+    private void hit(){
+        playerHand.add(deck.accessRand());
+        currentSum = getSum();
+        playerSum.text = ((currentSum > 21) ? "You bust! Sum: " : "Sum: ") + currentSum;
+    }
+    
+    private void stay(){
+        playerSum.text = "You stayed.  Sum: " + currentSum;
+    }
+    
     @Override
     public void mouseClicked(MouseEvent e){
         int mouseX = e.getX();
@@ -130,10 +188,12 @@ public class BlackJack extends GameComponent{
         if(currentState == State.HIT_OR_STAY){
             if(hit.containsCoords(mouseX, mouseY)){
                 currentState = State.HIT;
+                hit();
                 setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             }
             if(stay.containsCoords(mouseX, mouseY)){
-                currentState = State.HIT_OR_STAY;
+                currentState = State.STAY;
+                stay();
                 setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             }
         }
