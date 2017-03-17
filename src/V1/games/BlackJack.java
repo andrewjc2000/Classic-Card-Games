@@ -32,7 +32,7 @@ public class BlackJack extends GameComponent{
     private final V1.component.drawn.Image cardBack;
     private int counter, initCardAnim, currentSum, newCardAnim, moveText;
     private State currentState;
-    private final ArrayList<Card> playerHand;
+    private final ArrayList<Card> playerHand, dealerHand;
     private final Button hit, stay;
     private final Label hitOrStay, hitL, stayL, playerSum;
     
@@ -45,6 +45,7 @@ public class BlackJack extends GameComponent{
         moveText = 0;
         currentState = State.INIT_DELAY;
         playerHand = new ArrayList<>();
+        dealerHand = new ArrayList<>();
         deck.shuffle(3);
         playerHand.add(deck.accessRand());
         playerHand.add(deck.accessRand());
@@ -125,7 +126,7 @@ public class BlackJack extends GameComponent{
             }
             else{
                 initCardAnim = 0;
-                currentSum = getSum();
+                currentSum = getSum(playerHand);
                 playerSum.text = "Sum: " + currentSum;
                 currentState = State.HIT_OR_STAY;
             }
@@ -152,16 +153,23 @@ public class BlackJack extends GameComponent{
                 currentState = State.DEALER_MOVE;
             }
         }
+        else if(currentState == State.DEALER_MOVE){
+            dealerHand.add(deck.accessRand());
+            dealerHand.add(deck.accessRand());
+            while(getSum(dealerHand) < 17){
+                dealerHand.add(deck.accessRand());
+            }
+        }
     }
     
-    private int getSum(){
+    private int getSum(ArrayList<Card> hand){
         int sum = 0;
-        for(Card c: playerHand){
+        for(Card c: hand){
             sum += c.getCribbageValue();
         }
         if(sum > 21){
-            for(int i = 0;(i < playerHand.size() && sum > 21);i++){
-                if(playerHand.get(i).getValue() == 0){
+            for(int i = 0;(i < hand.size() && sum > 21);i++){
+                if(hand.get(i).getValue() == 0){
                     sum -= 10;
                 }
             }
@@ -172,7 +180,7 @@ public class BlackJack extends GameComponent{
     
     private void hit(){
         playerHand.add(deck.accessRand());
-        currentSum = getSum();
+        currentSum = getSum(playerHand);
         playerSum.text = ((currentSum > 21) ? "You bust! Sum: " : "Sum: ") + currentSum;
     }
     
