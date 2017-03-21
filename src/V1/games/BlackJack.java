@@ -25,7 +25,8 @@ public class BlackJack extends GameComponent{
         HIT,
         BUST_TRANSITION,
         STAY,
-        DEALER_MOVE
+        DEALER_MOVE,
+        DEALER_HAND_REVEAL
     };
     
     private final Deck deck;
@@ -34,7 +35,7 @@ public class BlackJack extends GameComponent{
     private State currentState;
     private final ArrayList<Card> playerHand, dealerHand;
     private final Button hit, stay;
-    private final Label hitOrStay, hitL, stayL, playerSum;
+    private final Label hitOrStay, hitL, stayL, playerSum, dealerSum;
     
     public BlackJack(){
         deck = new Deck(true);
@@ -55,6 +56,7 @@ public class BlackJack extends GameComponent{
         stay = new Button(550, 250, 150, 100, Color.red);
         stayL = new Label(250, 250, "Stay", new Font("Monospaced", Font.BOLD, 48), Color.WHITE);
         playerSum = new Label(400, 100, "Sum:", new Font("Monospaced", Font.BOLD, 64), Color.BLUE);
+        dealerSum = new Label(400, 250, "Dealer Sum: ", new Font("Monospaced", Font.BOLD, 64), Color.BLUE);
     }
     
     @Override
@@ -102,6 +104,16 @@ public class BlackJack extends GameComponent{
                 playerHand.get(i).image.draw(g, 100 + (i * 50), (int)(325 + (int)(325 * (7.0/8.0)) - h));
             }
             playerSum.drawCenteredString(g, true, 450);
+        }
+        else if(currentState == State.DEALER_HAND_REVEAL){
+            for(int i = 0;i < playerHand.size();i++){
+                playerHand.get(i).image.draw(g, 100 + (i * 50), (int)(325 + (int)(325 * (7.0/8.0)) - h));
+            }
+            playerSum.drawCenteredString(g, true, 450);
+            for(int i = 0;i < dealerHand.size();i++){
+                dealerHand.get(i).image.draw(g, 100 + (i * 50), 50);
+            }
+            dealerSum.drawCenteredString(g, true, 250);
         }
         
     }
@@ -159,13 +171,15 @@ public class BlackJack extends GameComponent{
             while(getSum(dealerHand) < 17){
                 dealerHand.add(deck.accessRand());
             }
+            dealerSum.text += getSum(dealerHand);
+            currentState = State.DEALER_HAND_REVEAL;
         }
     }
     
     private int getSum(ArrayList<Card> hand){
         int sum = 0;
         for(Card c: hand){
-            sum += c.getCribbageValue();
+            sum += (c.getCribbageValue() == 1) ? 11 : c.getCribbageValue();
         }
         if(sum > 21){
             for(int i = 0;(i < hand.size() && sum > 21);i++){
