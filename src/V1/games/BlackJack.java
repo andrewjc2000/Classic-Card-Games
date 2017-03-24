@@ -26,7 +26,8 @@ public class BlackJack extends GameComponent{
         BUST_TRANSITION,
         STAY,
         DEALER_MOVE,
-        DEALER_HAND_REVEAL
+        DEALER_HAND_REVEAL,
+        HAND_DECISION
     };
     
     private final Deck deck;
@@ -190,6 +191,24 @@ public class BlackJack extends GameComponent{
         }
             
         return sum;
+    }
+    
+    private int decision(int pSum, int dSum){
+        if(pSum > 21){
+            return 1;//dealer wins
+	}
+	else if(dSum > 21){
+            return 2;//player wins
+	}
+	else if(pSum > dSum){
+            return 3;//player wins
+	}
+	else if(dSum > pSum){
+            return 4;//dealer wins
+	}
+	else{
+            return 5;//tie, but the dealer wins
+	}
     }
     
     private void hit(){
