@@ -1,13 +1,13 @@
 //File created by Andrew Chafos: 3/15/17 @ 1:08 PM
 
-package V1.games;
+package games;
 
-import V1.Globals;
-import V1.card.Card;
-import V1.card.Deck;
-import V1.component.GameComponent;
-import V1.component.drawn.Button;
-import V1.component.drawn.Label;
+import resources.Globals;
+import card.Card;
+import card.Deck;
+import component.GameComponent;
+import component.drawn.Button;
+import component.drawn.Label;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -31,7 +31,7 @@ public class BlackJack extends GameComponent{
     };
     
     private final Deck deck;
-    private final V1.component.drawn.Image cardBack;
+    private final component.drawn.Image cardBack;
     private int counter, initCardAnim, currentSum, newCardAnim, moveText;
     private State currentState;
     private final ArrayList<Card> playerHand, dealerHand;
@@ -40,7 +40,7 @@ public class BlackJack extends GameComponent{
     
     public BlackJack(){
         deck = new Deck(true);
-        cardBack = new V1.component.drawn.Image(Globals.cardBackImage, 0, 0);
+        cardBack = new component.drawn.Image(Globals.cardBackImage, 0, 0);
         counter = 0;
         currentSum = 0;
         newCardAnim = 0;

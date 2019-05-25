@@ -1,11 +1,11 @@
 //File created by Andrew Chafos: 8/21/15 @ 9:19 PM
-package V1.component;
+package component;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import V1.Globals;
-import V1.component.drawn.Image;
+import resources.Globals;
+import component.drawn.Image;
 
 //GameComponent has subclasses.  That's why it implements several interfaces
 //but does not use them; they are simply an option for its subclasses to choose
@@ -15,7 +15,7 @@ public class GameComponent extends JComponent implements ActionListener, MouseLi
     
     protected final int FPS;
     private final Timer timer;
-    private final V1.component.drawn.Image background;
+    private final component.drawn.Image background;
     
     //These states are used by several classes, not just
     //GameComponent and its subclasses.

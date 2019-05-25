@@ -1,7 +1,8 @@
 //File created by Andrew Chafos: 8/28/15 @ 6:55 PM
-package V1.component.drawn;
+package component.drawn;
 
-import V1.Globals;
+import resources.Globals;
+
 import java.awt.*;
 
 //A Label is simply a String with fancy variables
@@ -39,7 +40,7 @@ public class Label extends Component{
     
     //can draw a string horizontally or vertically centered based on the frame's
     //width and height.  These attributes have already been initialized at the beginning
-    //of the program in the class V1.Globals
+    //of the program in the class resources.Globals
     public void drawCenteredString(Graphics g, boolean horizontal, int otherCoord){
         g.setColor(color);
         g.setFont(font);

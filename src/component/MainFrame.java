@@ -1,9 +1,9 @@
 //File created by Andrew Chafos: 8/21/15 @ 5:18 PM
-package V1.component;
+package component;
 
 import javax.swing.*;
 import java.awt.*;
-import V1.Globals;
+import resources.Globals;
 
 //This is the main JFrame where everything gets done,
 //however it only uses a single JPanel, ActiveGame.

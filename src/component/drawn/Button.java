@@ -1,8 +1,8 @@
 //File created by Andrew Chafos: 8/27/15 @ 4:46 PM
-package V1.component.drawn;
+package component.drawn;
 
 import java.awt.*;
-import V1.exception.UnretrievableAttributeException;
+import exception.UnretrievableAttributeException;
 
 //This class is a rectangle which gives information
 //so that another class can use it to do something,

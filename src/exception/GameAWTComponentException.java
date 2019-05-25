@@ -1,5 +1,5 @@
 //File created by Andrew Chafos: 8/27/15 @ 4:54 PM
-package V1.exception;
+package exception;
 
 public class GameAWTComponentException extends RuntimeException{
     

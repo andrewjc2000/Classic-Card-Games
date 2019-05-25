@@ -1,9 +1,9 @@
 //File created by Andrew Chafos: 8/21/15 @ 5:19 PM
-package V1.component;
+package component;
 
 import java.awt.*;
 import javax.swing.*;
-import V1.games.*;
+import games.*;
 import java.awt.event.*;
 
 //This class is the jPanel added to MainFrame which handles the switching

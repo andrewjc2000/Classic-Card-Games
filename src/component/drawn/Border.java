@@ -1,5 +1,5 @@
 //File created by Andrew Chafos: 12/18/15 @ 9:34 PM
-package V1.component.drawn;
+package component.drawn;
 
 import java.awt.*;
 

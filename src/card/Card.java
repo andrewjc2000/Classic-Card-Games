@@ -1,9 +1,9 @@
 //File created by Andrew Chafos: 8/30/15 @ 3:46 PM
-package V1.card;
+package card;
 
-import V1.Globals;
-import V1.component.drawn.Image;
-import V1.util.Strings;
+import component.drawn.Image;
+import util.Strings;
+import resources.Globals;
 
 public class Card{
     
@@ -45,8 +45,8 @@ public class Card{
     public Card(int value, int suit, int posX, int posY){
         this.value = value;
         this.suit = suit;
-        this.sString = CardGlobals.SUIT[suit];
-        this.vString = CardGlobals.VALUE[value];
+        this.sString = Globals.SUIT[suit];
+        this.vString = Globals.VALUE[value];
         
         int[] imgCoords = imagePosition(suit, value);
         

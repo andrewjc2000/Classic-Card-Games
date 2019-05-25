@@ -1,5 +1,5 @@
 //File created by Andrew Chafos: 8/28/15 @ 8:04 PM
-package V1.exception;
+package exception;
 
 public class UnretrievableAttributeException extends RuntimeException{
     

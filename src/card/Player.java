@@ -1,5 +1,5 @@
 //File created by Andrew Chafos: 11/26/15 @ 10:25 AM
-package V1.card;
+package card;
 
 public class Player {
     

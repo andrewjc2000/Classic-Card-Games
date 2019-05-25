@@ -1,9 +1,10 @@
 //File created by Andrew Chafos: 8/21/15 @ 8:48 PM
-package V1.games;
+package games;
 
-import V1.card.*;
-import V1.component.*;
-import V1.Globals;
+import card.*;
+import component.*;
+import resources.Globals;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
@@ -18,10 +19,10 @@ public class Cribbage extends GameComponent{
     private final Player player1;
     private final AIPlayer player2;
     private final Deck currentCrib;
-    private final V1.component.drawn.Image cardBack;
+    private final component.drawn.Image cardBack;
     private int timeElapsed, currentAnim, gameState;
-    private final V1.component.drawn.Button cribConfirm, startGame;
-    private final V1.component.drawn.Label confirmText, choosingLabel, startLabel;
+    private final component.drawn.Button cribConfirm, startGame;
+    private final component.drawn.Label confirmText, choosingLabel, startLabel;
     private boolean selectCursor, playerHasCrib;
    
     private final int[] cribCardCoords = new int[4];
@@ -46,23 +47,23 @@ public class Cribbage extends GameComponent{
             choosingDeck.getDeck().get(i).image.changeX((i + 1) * 70);
         }
         
-        choosingLabel = new V1.component.drawn.Label(
+        choosingLabel = new component.drawn.Label(
             10, 150, "Choose a Card.  Player who draws the lowest card goes first.",
             new Font("Arial", Font.BOLD, 34), Color.blue
         );
         
-        startLabel = new V1.component.drawn.Label(
+        startLabel = new component.drawn.Label(
             0, 0, "Start Cribbage",
             new Font("Arial", Font.BOLD, 48), Color.blue
         );
         
-        startGame = new V1.component.drawn.Button(
+        startGame = new component.drawn.Button(
             300, 450, 400, 100, Color.green
         ); 
         
         player1 = new Player();
         player2 = new AIPlayer();
-        cardBack = new V1.component.drawn.Image(Globals.cardBackImage, 0, 0);
+        cardBack = new component.drawn.Image(Globals.cardBackImage, 0, 0);
         
         for(int i = 0;i < 6;i++){
             player1.addCardToHand(deck.accessRand());
@@ -77,10 +78,10 @@ public class Cribbage extends GameComponent{
         currentAnim = 0;
         
         currentCrib = new Deck(false);
-        cribConfirm = new V1.component.drawn.Button(325, 275, 350, 75, Color.blue,
-            new V1.component.drawn.Border(Color.black, 325, 275, 350, 75, 5)
+        cribConfirm = new component.drawn.Button(325, 275, 350, 75, Color.blue,
+            new component.drawn.Border(Color.black, 325, 275, 350, 75, 5)
         );
-        confirmText = new V1.component.drawn.Label(400, 275, "Click to Submit Crib",
+        confirmText = new component.drawn.Label(400, 275, "Click to Submit Crib",
             new Font("Arial", Font.BOLD, 32), Color.white
         );
         selectCursor = false;

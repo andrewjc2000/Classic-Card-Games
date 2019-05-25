@@ -1,5 +1,5 @@
 //File created by Andrew Chafos: 11/28/15 @ 4:46 PM
-package V1.util;
+package util;
 
 public class Timing {
     

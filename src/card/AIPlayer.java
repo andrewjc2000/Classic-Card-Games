@@ -1,5 +1,5 @@
 //File created by Andrew Chafos: 12/19/15 @ 9:42 PM
-package V1.card;
+package card;
 
 import java.util.ArrayList;
 import java.util.Arrays;

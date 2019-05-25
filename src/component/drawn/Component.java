@@ -1,5 +1,5 @@
 //File created by Andrew Chafos: 8/28/15 @ 8:30 PM
-package V1.component.drawn;
+package component.drawn;
 
 import java.awt.*;
 
@@ -36,7 +36,7 @@ public class Component {
     }
     
     //this is only used in the constructor of
-    //V1.component.drawn.Component because
+    //component.drawn.Component because
     //Component is initialized with a preset highlighted color
     private Color highlight(Color colo){
         int red = colo.getRed();

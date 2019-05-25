@@ -1,5 +1,5 @@
 //File created by Andrew Chafos: 11/28/15 @ 1:40 PM
-package V1.anim;
+package anim;
 
 import java.awt.*;
 import javax.swing.JComponent;

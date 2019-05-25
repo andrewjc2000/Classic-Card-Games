@@ -1,5 +1,5 @@
 //File created by Andrew Chafos: 9/6/15 @ 3:40 PM
-package V1.card;
+package card;
 
 import java.util.*;
 

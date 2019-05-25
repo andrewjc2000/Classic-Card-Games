@@ -1,5 +1,5 @@
 //File created by Andrew Chafos: 8/30/15 @ 4:48 PM
-package V1.util;
+package util;
 
 //Class which contains static methods to be used by any class to 
 //simplify String manipulation

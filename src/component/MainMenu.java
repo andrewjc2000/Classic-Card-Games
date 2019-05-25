@@ -1,11 +1,11 @@
 //File created by Andrew Chafos: 8/27/15 @ 2:50 PM
-package V1.component;
+package component;
 
 import java.awt.*;
 import java.awt.event.*;
-import V1.component.drawn.Button;
-import V1.component.drawn.Label;
-import V1.Globals;
+import component.drawn.Button;
+import component.drawn.Label;
+import resources.Globals;
 
 //This file is the main menu component which is the component at start-up
 //and can also be switchted to during a game
